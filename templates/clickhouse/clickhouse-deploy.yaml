@@ -68,12 +68,14 @@ spec:
         volumeMounts:
 {{- if .Values.storage.hostpath }}
           - name: hostpath
+            mountPath: /var/lib/clickhouse/
 {{- else if .Values.storage.pvc }}
           - name: {{ .Values.storage.pvc.name }}
+            mountPath: /var/lib/clickhouse/
 {{- else }}
           - name: emptydir
-{{- end }}
             mountPath: /var/lib/clickhouse/
+{{- end }}
           - name: config-volume
             mountPath: /etc/clickhouse-server/
       volumes:
