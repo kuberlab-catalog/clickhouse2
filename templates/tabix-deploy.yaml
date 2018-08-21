@@ -1,0 +1,71 @@
+{{- if .Values.tabix.enabled }}
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "clickhouse.name" . }}
+  labels:
+    heritage: {{ .Release.Service }}
+    release: {{ template "clickhouse.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "clickhouse.name" . }}
+{{- with .Values.tabix.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+      labels:
+        app: {{ template "clickhouse.name" . }}
+        release: {{ template "clickhouse.name" . }}
+{{- with .Values.tabix.podAnnotations }}
+      annotations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+      - name: {{ template "clickhouse.name" . }}
+        image: {{ .Values.tabix.image }}:{{ .Values.tabix.imageTag }}
+        imagePullPolicy: {{ .Values.tabix.imagePullPolicy }}
+        ports:
+        - name: http
+          containerPort: 80
+        livenessProbe:
+          timeoutSeconds: 1
+          initialDelaySeconds: 60
+          tcpSocket:
+            port: 80
+        readinessProbe:
+          timeoutSeconds: 1
+          initialDelaySeconds: 5
+          tcpSocket:
+            port: 80
+        resources:
+          requests:
+            cpu: {{ .Values.tabix.resources.requests.cpu }}
+            memory: {{ .Values.tabix.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.tabix.resources.limits.cpu }}
+            memory: {{ .Values.tabix.resources.limits.memory }}
+{{- if .Values.tabix.tolerations }}
+      tolerations:
+      - operator: {{ .Values.tabix.tolerations.operator | quote }}
+        key: {{ .Values.tabix.tolerations.key | quote }}
+{{- if .Values.tabix.tolerations.value }}
+        value: {{ .Values.tabix.tolerations.value | quote }}
+{{- end }}
+{{- if .Values.tabix.tolerations.effect }}
+        effect: {{ .Values.tabix.tolerations.effect | quote }}
+{{- end }}
+{{- end }}
+{{- if .Values.tabix.nodeSelector }}
+      nodeSelector:
+        {{ .Values.tabix.nodeSelector.key }}: {{ .Values.tabix.nodeSelector.value }}
+{{- end }}
+{{- end }}
