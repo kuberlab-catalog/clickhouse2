@@ -88,8 +88,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.storage.pvc.name }}
 {{- else }}
-          - name: emptydir
-            emptyDir: {}
+        - name: emptydir
+          emptyDir: {}
 {{- end }}
         - name: config-volume
           configMap:
