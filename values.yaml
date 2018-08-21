@@ -175,7 +175,7 @@ tabix:
   imagePullPolicy: Always
   service:
     type: ClusterIP
-    port: 8123
+    port: 80
     annotations: {}
     labels: {}
     externalIPs: []

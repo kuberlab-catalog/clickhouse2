@@ -3,12 +3,12 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "clickhouse.name" . }}
+  name: {{ template "clickhouse.tabix_name" . }}
   labels:
     heritage: {{ .Release.Service }}
-    release: {{ template "clickhouse.name" . }}
+    release: {{ template "clickhouse.tabix_name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app: {{ template "clickhouse.name" . }}
+    app: {{ template "clickhouse.tabix_name" . }}
 {{- with .Values.tabix.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -22,15 +22,15 @@ spec:
     metadata:
       labels:
       labels:
-        app: {{ template "clickhouse.name" . }}
-        release: {{ template "clickhouse.name" . }}
+        app: {{ template "clickhouse.tabix_name" . }}
+        release: {{ template "clickhouse.tabix_name" . }}
 {{- with .Values.tabix.podAnnotations }}
       annotations:
 {{ toYaml . | indent 8 }}
 {{- end }}
     spec:
       containers:
-      - name: {{ template "clickhouse.name" . }}
+      - name: {{ template "clickhouse.tabix_name" . }}
         image: {{ .Values.tabix.image }}:{{ .Values.tabix.imageTag }}
         imagePullPolicy: {{ .Values.tabix.imagePullPolicy }}
         ports:
