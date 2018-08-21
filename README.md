@@ -1,4 +1,4 @@
-# ClickHouse
+# ClickHouse2
 
 Run ClickHouse column-oriented database on kubernetes
 
