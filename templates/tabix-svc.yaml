@@ -46,4 +46,8 @@ spec:
     port: {{ .Values.tabix.service.port }}
     targetPort: 80
     protocol: TCP
+  - name: clickhouse
+    port: {{ .Values.service.port }}
+    targetPort: 8123
+    protocol: TCP
 {{- end }}
