@@ -1,0 +1,26 @@
+{{- if .Values.storage.pvc }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.storage.pvc.name }}
+{{- if .Values.storage.pvc.annotations }}
+  annotations:
+{{ toYaml .Values.storage.pvc.annotations | indent 4 }}
+{{- end }}
+  annotations:
+    volume.beta.kubernetes.io/mount-options: "discard"
+spec:
+  accessModes:
+    - {{ .Values.storage.pvc.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.pvc.size }}
+{{- if .Values.storage.pvc.storageClassName }}
+{{- if (eq "-" .Values.storage.pvc.storageClassName) }}
+  storageClassName: "default"
+{{- else }}
+  storageClassName: "{{ .Values.storage.pvc.storageClassName }}"
+{{- end }}
+{{- end }}
+{{- end }}
