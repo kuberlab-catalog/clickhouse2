@@ -18,8 +18,8 @@ clickhouse_pass_sha256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef72
 ingress:
   enable: true
   enable_https: false
-  clickhouse_host: clickhouse.domain.com
-  tabix_host: tabix.domain.com
+  # clickhouse_host: clickhouse.domain.com
+  # tabix_host: tabix.domain.com
 
 # Enable tabix
 enable_tabix: true

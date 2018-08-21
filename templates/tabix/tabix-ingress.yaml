@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/auth-type: basic
     ingress.kubernetes.io/auth-secret: basic-auth
-    ingress.kubernetes.io/auth-realm: "Authrentication Required"
+    ingress.kubernetes.io/auth-realm: "Authentication Required"
 {{- if .Values.ingress.enable_https }}
     kubernetes.io/tls-acme: "true"
     ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -18,13 +18,13 @@ metadata:
 {{- end }}
 spec:
   rules:
-  - host: {{ .Values.ingress.tabix_host }}
-    http:
+  - http:
       paths:
       - path: /
         backend:
           serviceName: tabix
           servicePort: http
+    host: {{ .Values.ingress.tabix_host }}
 {{- if .Values.ingress.enable_https }}
   tls:
   - hosts:
