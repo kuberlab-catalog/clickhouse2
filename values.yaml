@@ -138,19 +138,15 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-  enable_https: false
-  clickhouse_host: clickhouse.domain.com
-  loghouse_host: loghouse.domain.com
-  tabix_host: tabix.domain.com
 
 ## The storage volume used by each Pod in the StatefulSet. If a
 ## persistentVolume is not enabled, the Pods will use `emptyDir` ephemeral
 ## local storage.
 persistence:
   enabled: true
-  # storageClass: default
-  # accessMode: ReadWriteOnce
-  # size: 10Gi
+  storageClass: ceph-rbd
+  accessMode: ReadWriteOnce
+  size: 10Gi
   # annotations: {}
   # existingClaim:
 
