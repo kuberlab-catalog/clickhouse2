@@ -68,15 +68,12 @@ spec:
         volumeMounts:
 {{- if .Values.storage.hostpath }}
           - name: hostpath
-            mountPath: /var/lib/clickhouse/
 {{- else if .Values.storage.pvc }}
           - name: {{ .Values.storage.pvc.name }}
-            mountPath: /var/lib/clickhouse/
 {{- else }}
           - name: emptydir
-            emptyDir: {}
 {{- end }}
-
+            mountPath: /var/lib/clickhouse/
           - name: config-volume
             mountPath: /etc/clickhouse-server/
       volumes:
@@ -84,11 +81,13 @@ spec:
         - name: hostpath
           hostPath:
             path: {{ .Values.storage.hostpath }}
-{{- end }}
-{{- if .Values.storage.pvc }}
+{{- else if .Values.storage.pvc }}
         - name: {{ .Values.storage.pvc.name }}
           persistentVolumeClaim:
             claimName: {{ .Values.storage.pvc.name }}
+{{- else }}
+          - name: emptydir
+            emptyDir: {}
 {{- end }}
         - name: config-volume
           configMap:
