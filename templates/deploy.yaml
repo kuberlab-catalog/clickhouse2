@@ -76,7 +76,7 @@ spec:
           image: {{ .Values.tabix.image }}:{{ .Values.tabix.imageTag }}
           imagePullPolicy: {{ .Values.tabix.imagePullPolicy }}
           ports:
-            - name: http
+            - name: ui
               containerPort: 80
           livenessProbe:
             timeoutSeconds: 1

@@ -50,7 +50,7 @@ spec:
       targetPort: 9000
       protocol: TCP
 {{- if .Values.tabix.enabled }}
-    - name: http
+    - name: ui
       port: {{ .Values.tabix.service.port }}
       targetPort: 80
       protocol: TCP
